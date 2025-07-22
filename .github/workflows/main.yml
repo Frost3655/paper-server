@@ -25,5 +25,3 @@ jobs:
           timeout 6h java -Xmx1024M -Xms1024M -jar paper.jar nogui &
           sleep 15
           ./playit
-
-استخدم ده
