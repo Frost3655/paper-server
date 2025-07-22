@@ -1,0 +1,27 @@
+name: Minecraft Paper Server
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup
+        run: |
+          sudo apt update
+          sudo apt install -y default-jre wget unzip
+          mkdir server
+          cd server
+          wget https://api.papermc.io/v2/projects/paper/versions/1.20.1/builds/230/downloads/paper-1.20.1-230.jar -O paper.jar
+          echo "eula=true" > eula.txt
+          mkdir plugins
+          wget https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot -O plugins/Geyser-Spigot.jar
+          wget https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot -O plugins/floodgate-spigot.jar
+          wget https://github.com/playit-cloud/playit-agent/releases/latest/download/playit-linux.zip
+          unzip playit-linux.zip
+          chmod +x playit
+          echo "Starting Server..."
+          timeout 6h java -Xmx1024M -Xms1024M -jar paper.jar nogui &
+          sleep 15
+          ./playit
